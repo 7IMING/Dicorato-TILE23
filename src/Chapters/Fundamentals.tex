@@ -69,6 +69,29 @@ Con la facile disponibilità di una potente elaborazione del segnale digitale
   emittenti e ricercatori è tornato e continua ad aumentare.
 
   \section{Introduzione}
+Ambisonics può essere inteso come un'estensione tridimensionale dello stereo M/S (mid/side),
+aggiungendo ulteriori canali di differenza per altezza e profondità.\\
+Il set di segnali risultante è chiamato formato B.
+I suoi canali componenti sono etichettati W per la pressione sonora (la M in M/S),
+X per il gradiente di pressione sonora anteriore-meno-posteriore, 
+Y per sinistra- meno-destra (la S in M/S) e Z per su-meno-giù. \\
+Il segnale W corrisponde a un microfono omnidirezionale,
+mentre XYZ sono le componenti che sarebbero captate da
+capsule a forma di otto orientate lungo i tre assi spaziali.
+
+\section{PANNING DI UNA SORGENTE}
+Un semplice panner Ambisonic (o codificatore) prende un segnale sorgente S e due parametri,
+ l'angolo orizzontale $\theta$ e l'angolo di elevazione $\phi$.\\
+ Posiziona la sorgente all'angolo desiderato distribuendo il segnale sui 
+ componenti Ambisonic con guadagni diversi:
+
+ \begin{equation}
+W =S\cdot\frac{1}{\sqrt{2}}
+ \end{equation}
+
+ \begin{equation}
+      X=S\cdot\cos\theta\cos\phi
+\end{equation}
 
 \section{Problemi ed integrazioni}
 
