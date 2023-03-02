@@ -1,0 +1,109 @@
+% !TEX TS-program = pdflatex
+% !TEX root = ../tesi.tex
+
+
+%************************************************
+\chapter{Ambisonics}
+\label{chp:Ambisonics}
+%************************************************
+
+Ambisonics è un formato audio surround a sfera completa: oltre al piano orizzontale, copre le sorgenti sonore sopra e sotto l'ascoltatore.
+\begin{itemize}
+\item Il \textbf{surround} (dal verbo inglese "to surround", in italiano "circondare", o più propriamente "avvolgere") è l'informazione sonora che in una tecnica di riproduzione/registrazione del suono (ad esempio la quadrifonia) costituisce il fronte sonoro alle spalle dell'ascoltatore.\\ Il surround, in abbinamento al fronte sonoro anteriore, ha lo scopo di collocare l'ascoltatore al centro della scena sonora, offrendo quindi la possibilità di un maggior realismo sonoro, in quanto normalmente in natura il suono raggiunge l'ascoltatore da ogni direzione.\\
+\end{itemize}
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=0.3\textwidth]{Graphics/AmbisonicLogo.png}
+      \caption{⟨Logo simbolico Ambisonics⟩}
+      \label{fig:⟨etichetta⟩}
+      \end{figure}
+
+\section{Premessa storica}
+
+Michael Gerzon fece dichiarazione senza compromessi nel suo articolo intitolato
+\textit{\textbf{What’s wrong with quadraphonics?}} nel Maggio del 1974 sulla rivista Studio Sound.\\
+L’attacco principale che portava a questi sistemi era l’apparente localizzazione dei
+suoni affidata all’immaginazione dell’ascoltatore.\\
+Dopo aver catalogato i continui difetti delle registrazioni quadrifoniche, ha
+continuato descrivendo un nuovo approccio alla riproduzione del suono surround,
+noto come sistemi di ”\textbf{sintesi armonica}” o ”\textbf{kernel}”.\\
+ Il nuovo approccio è iniziatodall’osservazione che gli effetti che si vorrebbe produrre includono un continuum
+di direzioni attorno all’ascoltatore. Tali sistemi immaginano un numero
+limitato di canali utilizzati per trasmettere il suono all’ascoltatore, ma sono progettati
+per ricreare una gamma continua di direzioni attorno all’ascoltatore che
+si avvicinano all’originale. La matematica utilizzata non è algebra ”matriciale”
+(che è usata solo per descrivere trasformazioni di un numero finito di variabili)
+ma algebra ”kernel” (che è la matematica corrispondente usata quando si ha un
+continuum infinito di variabili).\\
+Ha spiegato di essere stato recentemente associato al sistema Ambisonic, che
+era un esempio di sistema kernel.\\ È stato sostenuto dalla \textbf{National Research and
+Development Corporation} (\textbf{NRDC}) e ha coinvolto il professor Peter Fellgett della
+Reading University.\\
+Il sistema audio surround britannico Ambisonics esiste da quasi trent’anni.\\
+Nonostante la mancanza del finanziamento delle principali società disponibili
+per i sistemi concorrenti, Ambisonics è sopravvissuta grazie a prestazioni tecniche
+superiori e al supporto di appassionati di tutto il mondo.\\
+Con la facile disponibilità di una potente elaborazione del segnale digitale
+ (al contrario dei circuiti analogici costosi e soggetti a errori che dovevano essere utilizzati durante i suoi primi anni)
+ e il successo dell'introduzione sul mercato dei sistemi audio surround home theater sin dagli anni '90,
+  l'interesse per Ambisonics tra ingegneri del suono, sound designer, compositori, società di media,
+  emittenti e ricercatori è tornato e continua ad aumentare.
+
+  \section{Introduzione}
+Ambisonics può essere inteso come un'estensione tridimensionale dello stereo M/S (mid/side),
+aggiungendo ulteriori canali di differenza per altezza e profondità.\\
+Il set di segnali risultante è chiamato formato B.
+I suoi canali componenti sono etichettati W per la pressione sonora (la M in M/S),
+X per il gradiente di pressione sonora anteriore-meno-posteriore, 
+Y per sinistra- meno-destra (la S in M/S) e Z per su-meno-giù. \\
+Il segnale W corrisponde a un microfono omnidirezionale,
+mentre XYZ sono le componenti che sarebbero captate da
+capsule a forma di otto orientate lungo i tre assi spaziali.
+
+\section{Panning di una sorgente}
+Un semplice panner Ambisonic (o codificatore) prende un segnale sorgente S e due parametri,
+ l'angolo orizzontale $\theta$ e l'angolo di elevazione $\phi$.\\
+ Posiziona la sorgente all'angolo desiderato distribuendo il segnale sui 
+ componenti Ambisonic con guadagni diversi:
+
+ \begin{equation}
+W =S\cdot\frac{1}{\sqrt{2}}
+ \end{equation}
+
+ \begin{equation}
+      X=S\cdot\cos\theta\cos\phi
+\end{equation}
+
+\begin{equation}
+      Y =S\cdot\sin\theta\cos\phi
+\end{equation}
+
+\begin{equation}
+      Z=S\cdot\sin\phi
+\end{equation}
+
+Essendo omnidirezionale, il canale W riceve sempre lo stesso segnale di ingresso costante, indipendentemente dagli angoli. \\
+Affinché abbia più o meno la stessa energia media degli altri canali, W è attenuato di circa 3 dB (appunto, diviso per la radice quadrata di due).\\
+ I termini per XYZ in realtà producono gli schemi polari dei microfoni a forma di otto. \\ 
+ Prendiamo il loro valore $\theta$ e $\phi$ e moltiplichiamo il risultato per il segnale di ingresso.\\
+  Il risultato è che l'ingresso finisce in tutti i componenti esattamente come l'avrebbe captato il microfono corrispondente.
+\\
+
+\begin{tabular}{||p{3.0cm}|p{3.0cm}||} 
+      \hline\hline
+      p & Pattern \\
+      \hline\hline
+      0 & Figura a 8 \\
+      \hline\hline
+      (0, 0.5) & Iper e Super-cardioide\\
+      \hline\hline
+      0.5 & Cardioide \\
+      \hline\hline
+      (0.5, 1.0) & Cardioide Largo \\
+      \hline\hline
+      1.0 & Omnidirezionale \\
+      \hline\hline
+      \end{tabular}\centering
+
+\section{Problemi ed integrazioni}
