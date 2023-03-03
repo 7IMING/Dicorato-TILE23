@@ -56,10 +56,21 @@ aggiungendo ulteriori canali di differenza per altezza e profondità.\\
 Il set di segnali risultante è chiamato \textbf{formato B}.
 I suoi canali componenti sono etichettati \textbf{W} per la pressione sonora (la M in M/S),
 \textbf{X} per il gradiente di pressione sonora anteriore-meno-posteriore, 
-\textbf{Y} per sinistra- meno-destra (la S in M/S) e \text{Z} per su-meno-giù. \\
+\textbf{Y} per sinistra- meno-destra (la S in M/S) e \textbf{Z} per su-meno-giù. \\
 Il segnale \textbf{W} corrisponde a un microfono omnidirezionale,
 mentre \textbf{XYZ} sono le componenti che sarebbero captate da
-capsule a forma di otto orientate lungo i tre assi spaziali.
+capsule a forma di otto orientate lungo i tre assi spaziali.\\
+La registrazione M/S richiede due microfoni coincidenti:
+
+\begin{itemize}
+      \item[--] M: un microfono omni per il mid (analogo al canale W in formato B).
+      \item[--] S: un microfono figura-8 per i lati (analogo al canale Y in formato B).
+    \end{itemize}
+
+Insieme, i canali M e S catturano l'intero campo stereo L/R attraverso differenze di guadagno
+ e fase sul canale laterale (dove L=M+S, R=M-S).\\
+Lo stesso identico principio vale per i canali WXYZ in formato B,
+ solo con due canali aggiuntivi che forniscono profondità (X) ed elevazione (Z).
 
 \section{Panning di una sorgente}
 Un semplice panner Ambisonic (o codificatore) prende un segnale sorgente S e due parametri,
@@ -125,7 +136,7 @@ I microfoni virtuali possono essere manipolati in post-produzione: i suoni desid
 
 Un decoder Ambisonic di base è molto simile a un set di microfoni virtuali.
 Per layout perfettamente regolari, è possibile generare un decodificatore semplificato puntando un microfono cardioide virtuale in direzione di ciascun altoparlante.
-\\Ecco un quadrato:
+\\Ecco, per esempio, un quadrato:
 
 \begin{equation}
       LF = ({\sqrt{2W}} + X + Y){\sqrt{8}}
@@ -153,7 +164,27 @@ Per layout perfettamente regolari, è possibile generare un decodificatore sempl
       In pratica, un vero decoder Ambisonic richiede una serie di ottimizzazioni psicoacustiche per funzionare correttamente.\\
       La decodifica dipendente dalla frequenza può anche essere utilizzata per produrre stereo binaurale;
       questo è particolarmente rilevante nelle applicazioni di realtà virtuale.
+      Il formato B del primo ordine può essere manipolato in vari modi per modificare il contenuto di una scena uditiva. \\
+      Manipolazioni ben note includono "rotazione" e "dominanza" (spostamento di sorgenti verso o lontano da una particolare direzione).
+
+      Inoltre, l'elaborazione lineare del segnale tempo-invariante come l'equalizzazione può essere applicata al formato B senza interrompere le direzioni del suono, purché applicata a tutti i canali componenti allo stesso modo.
       
+      Gli sviluppi più recenti nell'ordine superiore Ambisonics consentono una vasta gamma di manipolazioni tra cui rotazione, riflessione,
+       movimento, riverbero 3D, upmixing da formati legacy come 5.1 o primo ordine, visualizzazione e mascheramento ed equalizzazione dipendenti dalla direzione.
+
+       L'idea alla base della decodifica parametrica è quella di trattare la direzione di incidenza del suono come un parametro che può essere stimato attraverso l'analisi tempo-frequenza. 
+       Un ampio corpus di ricerche sull'udito spaziale umano suggerisce che la nostra corteccia uditiva applica tecniche simili nella sua analisi della scena uditiva, il che spiega perché questi metodi funzionano.
+
+       I principali vantaggi della decodifica parametrica sono una risoluzione angolare notevolmente aumentata e la separazione di analisi e sintesi in fasi di elaborazione separate. 
+       Questa separazione consente di eseguire il rendering delle registrazioni in formato B utilizzando qualsiasi tecnica di panning, inclusa la panoramica ritardata, VBAP e la sintesi basata su HRTF.
+       
+       La decodifica parametrica è stata introdotta da Lake DSP alla fine degli anni 1990 e suggerita indipendentemente da Farina e Ugolotti nel 1999. Lavori successivi in questo campo includono il metodo DirAC e il metodo Harpex.
+
+       \subsubsection*{Sistema di riproduzione ideale}
+
+       Gli Ambisonics di ordine superiore possono essere decodificati per produrre un'uscita per cuffie stereo 3D simile a quella prodotta utilizzando la registrazione binaurale.
+       Questo può essere fatto in diversi modi, incluso l'uso di altoparlanti virtuali in combinazione con i dati HRTF.
+
       \section{Gli ordini dell'Ambisonics}
 
       Nel contesto dei videogiochi, viene utilizzato principalmente l'ambisonics di primo ordine (o "B-format"), che consiste in quattro canali audio (W, X, Y e Z) che rappresentano rispettivamente il suono diffuso uniformemente nell'ambiente, e le tre dimensioni spaziali.\\
@@ -161,7 +192,10 @@ Per layout perfettamente regolari, è possibile generare un decodificatore sempl
       In genere, i videogiochi che supportano l'ambisonics di primo ordine consentono ai giocatori di selezionare il numero di altoparlanti utilizzati, in base alle loro esigenze e alle specifiche del sistema di riproduzione sonora che hanno a disposizione.\\
       Inoltre, gli sviluppatori di giochi possono utilizzare plugin o librerie di software dedicati per creare, manipolare e riprodurre il segnale ambisonico all'interno dell'ambiente di sviluppo del gioco.\\
       Il set di segnali risultante viene quindi chiamato Ambisonics di secondo, terzo o, collettivamente, di ordine superiore.\\
-      Per un dato ordine $\mathbf{l}$, i sistemi a sfera completa richiedono componenti di segnale $(l+1)^{2}$ componenti, e $2l+1$ sono necessari per la riproduzione solo orizzontale.
+      Per un dato ordine $\mathbf{l}$, i sistemi a sfera completa richiedono componenti di segnale $(l+1)^{2}$ componenti, e $2l+1$ sono necessari per la riproduzione solo orizzontale.\\
+      L'audio in formato B di ordine superiore può fornire risoluzioni spaziali ancora più elevate, con più canali che forniscono modelli polari più diversi.\\
+      Pertanto, Ambisonics di secondo ordine utilizza 9 canali,
+      Ambisonics di terzo ordine salta fino a 16 canali, fino ad Ambisonics di sesto ordine con 49 canali.
 \\
       \begin{figure}[h]
             \centering
