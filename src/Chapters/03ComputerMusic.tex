@@ -43,5 +43,172 @@ Musica generata da un componente di sistema che non ha input musicali distinguib
  Un esempio di questa tecnica è Viral symphOny di Joseph Nechvatal: una sinfonia collaborativa di musica noise elettronica creata tra gli anni 2006 e 2008 utilizzando un software di vita artificiale personalizzato basato su un modello virale.
 
 \section{Materiali}
+La composizione che viene adattata al contesto audio-video 3D di Unity è stata realizzata mediante 
+l'uso dell'ambiente di calcolo del Mathematica,
+il quale sfrutta il linguaggio di programmazione interpretato Wolfram per generare suoni riprodotti da Csound,
+che è un altro linguaggio sviluppato in C.\\
+Tramite questo procedimento è possibile riprodurre varie tipologie di suoni e sintesi.
+All'interno di questo brano sono presenti: Sintesi additiva, sintesi sottrattiva, sintesi granulare con l'ausilio del campionatore.\\
+
+\subsection*{Mathematica}
+
+Pertanto, dispongo come esempio uno dei codici utilizzati per dare atto pratico della produzione nel Mathematica, nel quale principalmente
+possono essere presenti diversi parametri compositivi come: il numero degli strumenti, il ritmo, la durata, la dinamica, l'ampiezza, la frequenza, la forma d'onda,
+l'attacco percentuale, il rateo di lettura, la spazializzazione e così via.
+
+\subsubsection*{Sintesi Additiva}
+
+La sintesi additiva è una tecnica di sintesi sonora utilizzata nella musica elettronica che crea timbriche,
+ quindi forme d'onda comunque complesse, sommando insieme singole onde, generalmente sinusoidali.
+
+\begin{lstlisting}
+    codice[additivaUnSuono] := (
+        nomeOrchestra = "additiva.csd";
+        nomeCSD = "mathAdditiva.csd";
+        
+        colonneCsound = Range[7];
+        colonneProcessing = {};
+        (*Parameter Field Number*)
+        numPFV = Union[colonneCsound, colonneProcessing] ;
+        mascheraPFV = Table[{}, {numPFV}];
+        
+        clcLstPFV := Association @@ {
+           (*1*)
+           1 :> {1},
+           (*2*)
+           2 :> {.5},
+           (*3*)
+           3 :> {2},
+           (*4*)
+           4 :> {3000}(*iamp*),
+           (*5*)  (*freq*)
+           5 :> RandomSample[Range[.5, 100, .2]],
+           (*6*)
+           6 :> {1}(*ifn*),
+           (*7*)
+           7 :> {.9}(*attacco perc*)});
+     
+     (* inizializzazione Tempi *)
+     attaccoIniziale = 0;
+     durataSezione = 70;
+    \end{lstlisting}
+
+    \subsubsection*{Sintesi Granulare}
+
+    La sintesi granulare è un metodo base della sintesi del suono che opera con degli elementi acustici elementari chiamati microsound o grani.
+
+\begin{lstlisting}
+    clcLstPFV := Association @@ {
+     1 :> {1},
+     2 :> p02,
+     3 :> p03,
+     (*iamp;percentuale[0,n]*)
+     4 :> p04,
+     (*ifilcod*)
+     5 :> RandomSample[nomiFile],
+     (*iratio*)
+     6 :> p06,
+     (*iskiptimePerc*)
+     7 :> p07,
+     (* attacco perc *)
+     8 :> p08,
+     (* ispaz: left=0 *)
+     9 :> {.5}
+     });
+
+(*Tutte le funzioni sono date in tempo percentuale, che va da 
+attaccoIniziale + {0 , durataSezione}*)
+(* inizializzazione Tempi *)
+
+(*parametro compositivo: 1*)
+attaccoIniziale = 0;
+
+(*parametro compositivo: 2*)
+durataSezione = 30;
+
+(*parametro compositivo: 3*)
+campioni = Dataset[{
+    <|"nomeFile" -> "\"uccelli.wav\"", "durataFile" -> 2.756|>,
+    <|"nomeFile" -> "\"bisbigli.wav\"", "durataFile" -> 5.593|>,
+    <|"nomeFile" -> "\"vocemaschile.wav\"", "durataFile" -> 3.668|>}];
+
+\end{lstlisting}
+
+\subsubsection*{Sintesi Sottrattiva}
+
+Per sintesi sottrattiva ci si riferisce ad un modello di sintesi sonora utilizzata nella musica elettronica nella quale una sorgente sonora (oscillatori o parziali) ricca di armoniche,
+ viene filtrata da un punto di vista spettrale "sottraendo" o modulando da essa bande di frequenze o singole parziali.
+
+\begin{lstlisting}
+    clcLstPFV := Association @@ {
+     (*1*)(*numero strumento*)
+     1 :> {7},
+     (*2*)(*attack time*)
+     (*con colpo per ogni inizio lista*)
+     2 :> {Table[0, {2^RandomInteger[{0, 3}]}], 
+        RandomSample[
+         Flatten[Table[2^-(i - 1), {i, 1, 3}, {1/2^-(i - 1)}], 1]]}*2,
+     
+     (*3*)(*durata*)
+     3 :> 
+      RandomSample[
+        Flatten[Table[2^-(i - 1), {i, 1, 6}, {1/2^-(i - 1)}], 1]]*16,
+     
+     (*{Range[1,RandomInteger[{5,10}],1],Range[RandomInteger[{5,10}],
+     1,-1]}*.05,*)
+     (*4*)(*iamp*)
+     4 :> (RandomSample[
+          Flatten[Table[2^-(i - 1), {i, 1, 6}, {1/2^-(i - 1)}], 
+           1]]*10000 // N),
+     (*5*)(*i freq cut*)
+     (*{55,RandomReal[{55,8000},3],8000},*)
+     5 :> (modulo = 2;
+       numSemitoni = 12;
+       freqBase = 880;
+       scalaMagg = {0, 2, 4, 5, 7, 9, 11};
+       scalaMinArm = {0, 2, 3, 5, 7, 8, 11};
+       scalaPentatonica = {0, 2, 5, 7, 9};
+       TriadeMaggiore = {0, 4, 7};
+       Armonici = intervalToSemitone[Range[1, 32]];
+       
+       scala = scalaMinArm;
+       modulo^
+          RandomSample[(Table[12 i + scala, {i, -1, 1}]/numSemitoni) //
+             Flatten]*freqBase // N),
+     (*6*)(*iq*)
+     6 :> {10^RandomReal[{-.25, 2}]},
+     (*RandomChoice[Range[20],40]*)
+     (*7*)(*attacco perc*)
+     7 :> {Subdivide[.3, .6, 19]^3, Subdivide[.6, .3, 11]^3},
+     (*8*)(*iLeft*)
+     8 :> {Subdivide[0, 1, 11]^3, Subdivide[1, 0, 23]^3}
+     });
+
+(* inizializzazione Tempi *)
+attaccoIniziale = 0;
+durataSezione = 60;
+\end{lstlisting}
 
 \section{Implementazione in Ambisonics}
+Per l'Implementazione in Ambisonics del tracce del brano, che si chiama "Absence of light", ho utilizzato la Suite dei Plug-in dell'IEM.
+Il montaggio e il lavoro in ambito sonoro è stato eseguito sulla DAW Reaper.\\
+In particolare, sono stati usati due plug-in: Lo StereoEncoder e il BinauralDecoder; in quanto i videogiochi possono raggiungere i massimi
+livelli di immersività solo tramite cuffie, perchè ci permettono di simulare al meglio i suoni ambientali all'interno del gioco, 
+soprattutto nei contesti più competitivi dove il minimo dettaglio conta.
+
+\subsubsection*{StereoEncoder}
+
+Lo usiamo per codificare segnali audio mono o stereo nel dominio Ambisonic.
+Nell'angolo in alto a destra è possibile impostare l'ordine Ambisonic desiderato e la normalizzazione.
+Si usano i cursori Azimuth, Elevazione e Roll per eseguire una panoramica della sorgente.\\
+Con il cursore Larghezza è possibile separare i due canali di ingresso.
+Inoltre, c'è un ingresso di quaternione che puoi usare come alternativa all'azimut e all'elevazione, ad esempio per i dati di orientamento degli inseguitori (di testa).
+
+\subsubsection*{BinauralDecoder}
+
+Il decodificatore binaurale manda il segnale di ingresso Ambisonic a un segnale di cuffie binaurali utilizzando l'approccio MagLS proposto.
+ Gli HRTF utilizzati provengono dalla testa fittizia Neumann KU 100. 
+ Inoltre, è possibile applicare le equalizzazioni delle cuffie dalle misurazioni di Benjamin Bernschütz et. al..\\
+A differenza dei decodificatori binaurali convenzionali, questo decodificatore binaurale non utilizza altoparlanti virtuali, ma converte i segnali Ambisonic direttamente in segnali binaurali per cuffie,
+ con l'aiuto di HRTF pre-elaborati.\\
+ Vengono elaborati in modo che la risposta in frequenza originale degli HRTF sia mantenuta nel miglior modo possibile, quando utilizzati con Ambisonics.
