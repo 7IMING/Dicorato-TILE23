@@ -52,7 +52,7 @@ All'interno di questo brano sono presenti: Sintesi additiva, sintesi sottrattiva
 
 \subsection*{Mathematica}
 
-Pertanto, dispongo come esempio uno dei codici utilizzati per dare atto pratico della produzione nel Mathematica, nel quale principalmente
+Pertanto, dispongo come esempio alcuni dei codici utilizzati per dare atto pratico della produzione nel Mathematica, nei qualei principalmente
 possono essere presenti diversi parametri compositivi come: il numero degli strumenti, il ritmo, la durata, la dinamica, l'ampiezza, la frequenza, la forma d'onda,
 l'attacco percentuale, il rateo di lettura, la spazializzazione e così via.
 
@@ -192,7 +192,7 @@ durataSezione = 60;
 \section{Implementazione in Ambisonics}
 Per l'Implementazione in Ambisonics del tracce del brano, che si chiama "Absence of light", ho utilizzato la Suite dei Plug-in dell'IEM.
 Il montaggio e il lavoro in ambito sonoro è stato eseguito sulla DAW Reaper.\\
-In particolare, sono stati usati due plug-in: Lo StereoEncoder e il BinauralDecoder; in quanto i videogiochi possono raggiungere i massimi
+In particolare, sono stati usati i plug-in: Lo StereoEncoder, il BinauralDecoder, MultiEncoder ed EnergyVisualizer; in quanto i videogiochi possono raggiungere i massimi
 livelli di immersività solo tramite cuffie, perchè ci permettono di simulare al meglio i suoni ambientali all'interno del gioco, 
 soprattutto nei contesti più competitivi dove il minimo dettaglio conta.
 
@@ -212,3 +212,19 @@ Il decodificatore binaurale manda il segnale di ingresso Ambisonic a un segnale 
 A differenza dei decodificatori binaurali convenzionali, questo decodificatore binaurale non utilizza altoparlanti virtuali, ma converte i segnali Ambisonic direttamente in segnali binaurali per cuffie,
  con l'aiuto di HRTF pre-elaborati.\\
  Vengono elaborati in modo che la risposta in frequenza originale degli HRTF sia mantenuta nel miglior modo possibile, quando utilizzati con Ambisonics.
+
+ \subsubsection*{MultiEncoder}
+
+ Con il MultiEncoder è possibile codificare più sorgenti con un solo plug-in. Selezionare il numero desiderato di sorgenti di ingresso nell'angolo in alto a sinistra (fino a 64).\\
+  Ogni fonte può essere bannata, silenziata e solista individualmente. Anche il guadagno e il colore dell'etichetta possono essere regolati.
+   Abilita il pulsante "Blocca indicazioni" per consentire alle sorgenti di aderire al Master-Panner, che può essere controllato separatamente.\\
+ Fare doppio clic sulla sfera, per passare a una rappresentazione lineare di elevazione, per ottenere una risoluzione più alta all'orizzonte. 
+ Ogni anello rappresenta 15° di elevazione.
+
+ \subsubsection*{EnergyVisualizer}
+
+ L'EnergyVisualizer visualizza la distribuzione dell'energia sulla sfera del segnale di ingresso Ambisonic, utilizzando una proiezione \\Hammer-Aitoff (una proiezione sferica che preserva l'area).
+ La gamma dinamica visualizzata può essere regolata tra 10 e 60 dB, la gamma può essere spostata verso l'alto o verso il basso utilizzando il cursore accanto alla proiezione. \\
+ I livelli di energia sono codificati a colori con una mappa dei colori percettivamente motivata.
+ La mappa dei colori utilizzata è raffigurata accanto alla proiezione. 
+
