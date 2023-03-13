@@ -6,6 +6,9 @@
 %*******************************************************
 \begin{titlepage}
 \pdfbookmark{Titlepage}{Titlepage}
+
+\areaset{490pt}{784pt}
+
 \changetext{}{}{}{((\paperwidth  - \textwidth) / 2) - \oddsidemargin - \hoffset - 1in}{}
   \begin{center}
     {\LARGE
@@ -18,29 +21,25 @@
 %      {\spacedlowsmallcaps{Tecnico del Suono}} \\[1.414cm]
       {\spacedlowsmallcaps{Musica Elettronica}} \\[1.414cm]
 
-      {\Large{\spacedlowsmallcaps{\myName}}}
+      {\huge{\spacedlowsmallcaps{\myName}}}
       \vspace{-0.5cm}
       \par\noindent\rule{\textwidth}{0.4pt}\vspace{0.3cm}
-        \begin{tikzpicture}[remember picture, overlay, shift={(current page.center)}]
-          \node[bbari] at (0cm,1.45cm) {\Huge{\color{bbari}\spacedallcaps{\myTitle}}};
-          \node[anchor=north] at (0cm,0.4cm) {\spacedlowsmallcaps{\mySubTitle}};
-        \end{tikzpicture}
+		{\Huge{\color{bbari}\spacedallcaps{\myTitle}}}
+      \par\noindent\rule{\textwidth}{0.4pt}\vspace{0.3cm}}
+        {\Large{\spacedlowsmallcaps{\mySubTitle}}} \\[.2cm]
+%    \vspace{2.718cm}
+	\vfill
 
-%{\Huge{\color{bbari}\spacedallcaps{\myTitle}}}
-      \par\noindent\rule{\textwidth}{0.4pt}\vspace{0.3cm}
+%    \vspace{2.718cm}
 
-    }
-
-    \vspace{2.718cm}
-
-    \begin{minipage}[t]{0.49\textwidth}
+    \begin{minipage}[t]{0.59\textwidth}
     \begin{flushleft} \large
     \emph{Autore:}\\
     \spacedlowsmallcaps{\myName}\\
     \spacedlowsmallcaps{755/T}
     \end{flushleft}
     \end{minipage}
-    \begin{minipage}[t]{0.49\textwidth}
+    \begin{minipage}[t]{0.39\textwidth}
     \begin{flushright} \large
     \emph{Relatore:} \\
     \spacedlowsmallcaps{Prof. Giuseppe Silvi}\\
